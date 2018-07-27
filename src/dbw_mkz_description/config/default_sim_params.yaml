@@ -1,0 +1,10 @@
+- vehicle:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    yaw: 0.0
+    start_gear: P
+    color: {r: 0.55, g: 0.55, b: 0.55}
+    model: mkz
+    year: 2017
+    pub_tf: true

@@ -1,0 +1,39 @@
+<launch>
+
+  <!-- 拼接参数路径 -->
+  <arg name="config_dir" default="$(find surround_view_sim)/../../modules/sw_stitch/data" />
+  <!-- 相机是否静止 -->
+  <arg name="use_camera_control" default="false" />
+  <!-- 仿真世界 -->
+  <arg name="world_name" default="$(find surround_view_sim)/worlds/flat.world" />
+  <!-- 汽车模型 -->
+  <arg name="urdf_file" default="$(find surround_view_sim)/urdf/mkz_surround_cam.urdf.xacro" />
+
+  
+  <!-- 世界模型 -->
+  <include file="$(find dbw_mkz_description)/launch/gazebo_world.launch" >
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="use_camera_control" value="$(arg use_camera_control)" />
+    <arg name="headless" value="false" />
+    <arg name="pause" value="false" />
+  </include>
+  
+  <!-- mkz仿真 -->
+  <node pkg="dbw_mkz_gazebo" type="mkz_spawner" name="mkz_spawner" output="screen" >
+    <param name="sim_param_file" value="$(find dbw_mkz_description)/config/default_sim_params.yaml" />
+    <param name="urdf_file" value="$(arg urdf_file)" />
+  </node>
+
+  <!-- 原始图转拼接 -->
+  <node pkg="surround_view_sim" type="stitch_ros" name="origin_to_stitch" output="screen" >
+    <param name="config_dir" value="$(arg config_dir)" />
+  </node>
+  
+  <!-- 车辆控制 -->
+  <include file="$(find dbw_mkz_can)/launch/dbw.launch" >
+    <arg name="live" value="false" />
+    <arg name="load_urdf" value="false" />
+    <arg name="can_ns" value="can_bus_dbw" />
+  </include>
+
+</launch>

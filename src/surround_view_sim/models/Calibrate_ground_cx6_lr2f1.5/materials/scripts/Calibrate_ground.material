@@ -1,0 +1,19 @@
+material Calibrate_ground_cx6_lr2f1.5/Image
+{
+  technique
+  {
+    pass
+    {
+      ambient 1 1 1 1.000000
+      diffuse .5 .5 .5 1.000000
+      specular 1 1 1 5.00000 
+      emissive 0.01 0.01 0.01  1.000000
+
+      texture_unit
+      {
+        texture extrinsic_plot_cx6_lr2f1.5.png
+	    scale 1 1
+      } 
+    }
+  }
+}
